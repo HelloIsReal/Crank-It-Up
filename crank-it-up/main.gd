@@ -7,6 +7,8 @@ var notes = [
 	[5, 10],	
 ]
 var score := 0
+@export var scrollSpeed = 10
+
 func _process(delta):
 	queue_redraw()
 	for i in (4):
@@ -35,7 +37,7 @@ func _draw():
 	for i in (4):
 		print($Conductor.beat)
 		for note in notes[i]:
-			var y = 620 + (100 * ($Conductor.beat - note))
+			var y = 620 + ((scrollSpeed*10) * ($Conductor.beat - note))
 			print($Conductor.beat)
 			var start = Vector2(100 * i + 200, y)
 			var end = Vector2(100 * (i+1) + 200, y)
@@ -62,6 +64,10 @@ func _handle_lane_press(lane: int):
 	
 	var note = lane_notes[0]
 	
-	if abs($Conductor.beat - note) < 0.5:
+	if abs($Conductor.beat - note) < 0.4:
+		if abs($Conductor.beat - note) < 0.2:
+			score+=2
+		else:
+			score+=1
 		lane_notes.pop_front()
-		score+=1
+		
