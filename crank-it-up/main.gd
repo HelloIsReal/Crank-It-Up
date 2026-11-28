@@ -4,17 +4,25 @@ var notes = [
 	[2, 8,],
 	[3, 8],
 	[4, 9],
-	[5, 10],	
+	[5, 10]
 ]
+var cameraTween = [
+	[1],#type of tween
+	[4]# the beat it will happen
+]
+
 var score := 0
-@export var scrollSpeed = 10
+
 var lastJudgement="none"
-var judgementTextPosition= Vector2(350,90)
-#func _ready():
+
+func _ready():
+	Globals.gameplayScrollSpeed=Globals.scrollSpeed
+	Globals.cameraTween.emit(1,5)
 	#await get_tree().create_timer(2).timeout
 	#scrollSpeed=2
 
 func _process(delta):
+	#$Camera2D.rotate(deg_to_rad(10) * delta)
 	queue_redraw()
 	for i in (4):
 		var lane = notes[i]
@@ -28,8 +36,8 @@ func _process(delta):
 # Called when the node enters the scene tree for the first time.
 func _draw():
 	for i in (5): 
-		var start = Vector2(100 * i + 200, 0)
-		var end = Vector2(100 * i + 200, 720)
+		var start = Vector2(100 * i + 200, -3000)
+		var end = Vector2(100 * i + 200, 3000)
 		draw_line(start, end, Color.WHITE)
 		if i < 4:
 			var label_pos = Vector2(100 * (i+0.5) + 200, 620 + 30)
@@ -39,22 +47,22 @@ func _draw():
 		var judge_end = Vector2(100 * 4 + 200, 620)
 		draw_line(judge_start, judge_end, Color.WHITE)
 	if(lastJudgement=="perfect"):
-		draw_string(ThemeDB.fallback_font, judgementTextPosition, "Perfect!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.YELLOW)
+		draw_string(ThemeDB.fallback_font, Globals.judgementTextPosition, "Perfect!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.YELLOW)
 	elif(lastJudgement=="great"):
-		draw_string(ThemeDB.fallback_font, judgementTextPosition, "Great!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
+		draw_string(ThemeDB.fallback_font, Globals.judgementTextPosition, "Great!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
 	else:
-		draw_string(ThemeDB.fallback_font, judgementTextPosition, "....", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
+		draw_string(ThemeDB.fallback_font, Globals.judgementTextPosition, "....", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
 		
 		
 	
 	for i in (4):
-		print($Conductor.beat)
+		#print($Conductor.beat)
 		for note in notes[i]:
-			var y = 620 + ((scrollSpeed*10) * ($Conductor.beat - note))
-			print($Conductor.beat)
+			var y = 620 + ((Globals.gameplayScrollSpeed*10) * ($Conductor.beat - note))
+			#print($Conductor.beat)
 			var start = Vector2(100 * i + 200, y)
 			var end = Vector2(100 * (i+1) + 200, y)
-			draw_line(start, end, Color.WHITE, 5)
+			draw_line(start, end, Color.WHITE, 10)
 	draw_string(ThemeDB.fallback_font, Vector2(60,60), "Score: " + str(score))
 	
 

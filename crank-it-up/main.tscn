@@ -2,14 +2,21 @@
 
 [ext_resource type="AudioStream" uid="uid://nyp8lyduvxy7" path="res://Infection - ARForest.mp3" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://b2qs6r12s2jrx" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://bwlfd3grgivow" path="res://camera_engine.gd" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://2qs2vb3vg5lf" path="res://conductor.gd" id="2_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=781584950]
 script = ExtResource("1_h2yge")
-scrollSpeed = 25
+
+[node name="cameraEngine" type="Node2D" parent="." unique_id=1545864862]
+script = ExtResource("2_1bvp3")
 
 [node name="Conductor" type="AudioStreamPlayer" parent="." unique_id=710109079]
 stream = ExtResource("1_0xm2m")
 autoplay = true
 script = ExtResource("2_h2yge")
 bpm = 170
+
+[node name="camera" type="Camera2D" parent="." unique_id=741133884]
+position = Vector2(640, 360)
+ignore_rotation = false
