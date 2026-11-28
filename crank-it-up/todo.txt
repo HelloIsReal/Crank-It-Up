@@ -1,0 +1,3 @@
+- Create main menu
+- Create song select
+- Create settings (judgement text position. Keybinds. Music volume.)

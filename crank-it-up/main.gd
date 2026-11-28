@@ -1,13 +1,18 @@
 extends Node2D
 
 var notes = [
-	[2, 7],
+	[2, 8,],
 	[3, 8],
 	[4, 9],
 	[5, 10],	
 ]
 var score := 0
 @export var scrollSpeed = 10
+var lastJudgement="none"
+var judgementTextPosition= Vector2(350,90)
+#func _ready():
+	#await get_tree().create_timer(2).timeout
+	#scrollSpeed=2
 
 func _process(delta):
 	queue_redraw()
@@ -22,7 +27,7 @@ func _process(delta):
 
 # Called when the node enters the scene tree for the first time.
 func _draw():
-	for i in (5):
+	for i in (5): 
 		var start = Vector2(100 * i + 200, 0)
 		var end = Vector2(100 * i + 200, 720)
 		draw_line(start, end, Color.WHITE)
@@ -33,6 +38,14 @@ func _draw():
 		var judge_start = Vector2(200,620)
 		var judge_end = Vector2(100 * 4 + 200, 620)
 		draw_line(judge_start, judge_end, Color.WHITE)
+	if(lastJudgement=="perfect"):
+		draw_string(ThemeDB.fallback_font, judgementTextPosition, "Perfect!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.YELLOW)
+	elif(lastJudgement=="great"):
+		draw_string(ThemeDB.fallback_font, judgementTextPosition, "Great!", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
+	else:
+		draw_string(ThemeDB.fallback_font, judgementTextPosition, "....", HORIZONTAL_ALIGNMENT_CENTER, 100, 24, Color.GREEN)
+		
+		
 	
 	for i in (4):
 		print($Conductor.beat)
@@ -43,6 +56,7 @@ func _draw():
 			var end = Vector2(100 * (i+1) + 200, y)
 			draw_line(start, end, Color.WHITE, 5)
 	draw_string(ThemeDB.fallback_font, Vector2(60,60), "Score: " + str(score))
+	
 
 
 	
@@ -65,9 +79,14 @@ func _handle_lane_press(lane: int):
 	var note = lane_notes[0]
 	
 	if abs($Conductor.beat - note) < 0.4:
-		if abs($Conductor.beat - note) < 0.2:
+		if abs($Conductor.beat - note) < 0.1:
 			score+=2
+			lastJudgement="perfect"
+			#draw_string(ThemeDB.fallback_font, Vector2(60,70), "Perfect!")
+			#draw_string(ThemeDB.fallback_font, Vector2(60,70), "Perfect!", HORIZONTAL_ALIGNMENT_LEFT, 30, 24, Color.YELLOW)
 		else:
 			score+=1
+			lastJudgement="great"
+			
 		lane_notes.pop_front()
 		

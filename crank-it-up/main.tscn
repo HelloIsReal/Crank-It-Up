@@ -6,7 +6,7 @@
 
 [node name="Main" type="Node2D" unique_id=781584950]
 script = ExtResource("1_h2yge")
-scrollSpeed = 20
+scrollSpeed = 25
 
 [node name="Conductor" type="AudioStreamPlayer" parent="." unique_id=710109079]
 stream = ExtResource("1_0xm2m")
